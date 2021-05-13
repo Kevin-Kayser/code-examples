@@ -28,6 +28,7 @@ namespace code_examples.Services
             {
                 if (!showOnlyFolders)
                 {
+                    // ignores folders and files with hidden attributes
                     var filesInThisFolder = rootDirectory.GetFiles().Select(f => f)
                         .Where(f => (f.Attributes & FileAttributes.Hidden) == 0).ToList().Select(x =>
                             new FolderContentResponse()
@@ -48,6 +49,7 @@ namespace code_examples.Services
                 {
                     DirectoryInfo directory = new DirectoryInfo(d);
 
+                    // ignores folders and files with hidden attributes
                     if ((directory.Attributes & FileAttributes.Hidden) == 0)
                     {
                         returnData.Add(new FolderContentResponse()
@@ -56,15 +58,13 @@ namespace code_examples.Services
                             IsFolder = true,
                             FullPath = directory.FullName,
                             Leaf = false,
-
-                            FolderHasContents = directory.GetFiles().Any() || directory.GetDirectories().Any(),
                             Children = null
                         });
                     }
                 }
                 catch (Exception e)
                 {
-                    var x = 10;
+                    // Should catch and throw when appropriate. If there's any folder you don't have access to, an error may be thrown and ignored.
                 }
             }
 

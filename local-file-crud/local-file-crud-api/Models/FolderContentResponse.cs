@@ -8,7 +8,6 @@ namespace code_examples
         public string Label { get; set; }
 
         public bool IsFolder { get; set; }
-        public bool? FolderHasContents { get; set; }
         public string FullPath { get; set; }
         public bool Leaf { get; set; }
         public List<FolderContentResponse> Children { get; set; }

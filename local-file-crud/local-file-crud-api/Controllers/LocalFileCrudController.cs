@@ -5,6 +5,10 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace code_examples.Controllers
 {
+    /// <summary>
+    /// Local File Crud will accept directions from the UI and will load local resource data.
+    /// Cors is explicitly for known UI server in Startup.cs. This will need to change when deployed to real server/service.
+    /// </summary>
     [EnableCors("CorsPolicy")]
     [ApiController]
     [Route("[controller]")]

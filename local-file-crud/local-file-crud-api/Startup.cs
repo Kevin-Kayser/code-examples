@@ -24,6 +24,7 @@ namespace code_examples
 
             services.AddCors(options =>
             {
+                // Cors site list can be set via environmental variables. For now we're just using explicit values.
                 var corsSiteList = new List<string>()
                 {
                     "https://localhost:3276", "http://localhost:3276"
@@ -39,9 +40,8 @@ namespace code_examples
                     });
             });
 
+            // Dependency injection settings and services.
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
-
-
             services.AddScoped<IFileSystemService, FileSystemService>();
         }
 
@@ -54,6 +54,7 @@ namespace code_examples
             }
 
             app.UseRouting();
+            // userCors needed between UseRouting and UseEndpoints
             app.UseCors();
 
             app.UseHttpsRedirection();
