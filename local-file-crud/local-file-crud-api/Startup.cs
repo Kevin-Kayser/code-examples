@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using code_examples.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -20,7 +21,27 @@ namespace code_examples
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+
+            services.AddCors(options =>
+            {
+                var corsSiteList = new List<string>()
+                {
+                    "https://localhost:3276", "http://localhost:3276"
+                };
+
+
+                options.AddPolicy(name: "CorsPolicy",
+                    builder =>
+                    {
+                        builder.WithOrigins(corsSiteList.ToArray())
+                            .AllowAnyHeader()
+                            .AllowAnyMethod();
+                    });
+            });
+
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
+
+
             services.AddScoped<IFileSystemService, FileSystemService>();
         }
 
@@ -32,9 +53,10 @@ namespace code_examples
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseHttpsRedirection();
-
             app.UseRouting();
+            app.UseCors();
+
+            app.UseHttpsRedirection();
 
             app.UseAuthorization();
 

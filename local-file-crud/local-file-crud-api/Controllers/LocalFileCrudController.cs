@@ -1,9 +1,11 @@
 ﻿using System.Threading.Tasks;
 using code_examples.Services;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
 namespace code_examples.Controllers
 {
+    [EnableCors("CorsPolicy")]
     [ApiController]
     [Route("[controller]")]
     public class LocalFileCrudController : ControllerBase
