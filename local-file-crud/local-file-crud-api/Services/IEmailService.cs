@@ -22,20 +22,20 @@ namespace code_examples.Services
             _fileSystemService = fileSystemService;
         }
 
-        public async Task SendEmail(List<string> attachementFileList)
+        public async Task SendEmail(List<string> attachmentFileList)
         {
             var apiKey = _appSettings.SendGridApiKey;
 
 
             var client = new SendGridClient(apiKey);
             var from = new EmailAddress("kevin@kayserlabs.com", "Kevin Kayser");
-            var subject = "Test email with attachments";
+            var subject = $"Test email with attachments";
 
             var to = new EmailAddress("kevin.kayser@irwinseating.com", "Kevin Kayser");
             var plainTextContent = "Plain Text Content";
-            var htmlContent = $"HTML Content>";
+            var htmlContent = $"HTML Content";
             var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
-            foreach (var filePath in attachementFileList)
+            foreach (var filePath in attachmentFileList)
             {
                 var fileData = _fileSystemService.GetFileFromPath(filePath);
 
