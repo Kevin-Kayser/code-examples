@@ -4,7 +4,8 @@ namespace code_examples.Services
 {
     public interface IFileSystemService
     {
-        List<FolderContentResponse> GetFullFolderContents(string rootFolderPath, bool showOnlyFolders = false);
+        List<FolderContentResponse> GetFullFolderContents(string rootFolderPath, bool showFiles = false);
+        FileDataAttributes GetFileFromPath(string fullFilePath);
         string ProjectRoot { get; }
     }
 }

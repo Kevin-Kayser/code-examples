@@ -43,6 +43,7 @@ namespace code_examples
             // Dependency injection settings and services.
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
             services.AddScoped<IFileSystemService, FileSystemService>();
+            services.AddScoped<IEmailService, EmailService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

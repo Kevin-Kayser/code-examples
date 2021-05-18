@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
+using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Extensions.Options;
 
 namespace code_examples.Services
@@ -17,8 +19,34 @@ namespace code_examples.Services
 
         public string ProjectRoot => _appSettings.RootFolder;
 
+        public FileDataAttributes GetFileFromPath(string fullFilePath)
+        {
+            if (File.Exists(fullFilePath))
+            {
+                FileAttributes attributes = File.GetAttributes(fullFilePath);
+                var bytes = File.ReadAllBytes(fullFilePath);
+                var provider = new FileExtensionContentTypeProvider();
+
+                if (!provider.TryGetContentType(fullFilePath, out var contentType))
+                {
+                    contentType = "application/octet-stream";
+                }
+
+                return new FileDataAttributes
+                {
+                    Content = Convert.ToBase64String(bytes),
+                    Filename = Path.GetFileName(fullFilePath),
+                    Type = contentType
+                };
+            }
+            else
+            {
+                return null;
+            }
+        }
+
         public List<FolderContentResponse> GetFullFolderContents(string rootFolderPath,
-            bool showOnlyFolders = false)
+            bool showFiles = false)
         {
             rootFolderPath ??= ProjectRoot;
             var returnData = new List<FolderContentResponse>();
@@ -26,7 +54,7 @@ namespace code_examples.Services
 
             if (rootDirectory.Exists)
             {
-                if (!showOnlyFolders)
+                if (showFiles)
                 {
                     // ignores folders and files with hidden attributes
                     var filesInThisFolder = rootDirectory.GetFiles().Select(f => f)
@@ -35,7 +63,9 @@ namespace code_examples.Services
                             {
                                 Label = x.Name,
                                 IsFolder = false,
-                                FullPath = x.FullName
+                                FullPath = x.FullName,
+                                Leaf = true,
+                                Selectable = true,
                             });
 
 
@@ -58,7 +88,8 @@ namespace code_examples.Services
                             IsFolder = true,
                             FullPath = directory.FullName,
                             Leaf = false,
-                            Children = null
+                            Children = null,
+                            Selectable = false,
                         });
                     }
                 }
