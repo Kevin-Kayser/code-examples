@@ -2,13 +2,6 @@ using System.Collections.Generic;
 
 namespace code_examples
 {
-    public class FileDataAttributes
-    {
-        public string Content { get; set; }
-        public string Filename { get; set; }
-        public string Type { get; set; }
-    }
-
     public class FolderContentResponse
     {
         public string Key => Label;

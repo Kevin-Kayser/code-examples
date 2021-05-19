@@ -34,7 +34,7 @@ namespace code_examples.Services
 
                 return new FileDataAttributes
                 {
-                    Content = Convert.ToBase64String(bytes),
+                    Content = bytes,
                     Filename = Path.GetFileName(fullFilePath),
                     Type = contentType
                 };

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
 using SendGrid;
@@ -41,7 +42,7 @@ namespace code_examples.Services
 
                 msg.AddAttachment(new SendGrid.Helpers.Mail.Attachment
                     {
-                        Content = fileData.Content,
+                        Content = Convert.ToBase64String(fileData.Content),
                         Filename = fileData.Filename,
                         Type = fileData.Type,
                         Disposition = "attachment"
